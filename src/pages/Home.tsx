@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { auth, firebase } from '../services/firebase';
@@ -10,6 +11,8 @@ import '../styles/auth.scss';
 
 import { Button } from '../components/Button';
 
+import { TextContext } from '../App';
+
 //Biblioteca para gerenciar importações de imagens
 //Module Bundler
 //webpack (snowpack, vite, ...)
@@ -17,6 +20,7 @@ import { Button } from '../components/Button';
 export function Home() {
 
   const history = useHistory();
+  const value = useContext(TextContext);
 
   function handleCreateRoom() {
 
@@ -24,9 +28,9 @@ export function Home() {
 
     auth.signInWithPopup(provider).then(result => {
       console.log(result);
+
+      history.push('/rooms/new');
     });
-    
-    //history.push('/rooms/new');
   }
 
   return (
@@ -37,6 +41,7 @@ export function Home() {
         <p>Tire as dúvidas da sua audiência em tempo-real</p>
       </aside>
       <main>
+        <h1>{value}</h1>
         <div className="main-content">
           <img src={logoImg} alt="Letmeask Logo" />
           <button onClick={handleCreateRoom} className="create-room">
